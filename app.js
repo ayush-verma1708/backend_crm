@@ -11,9 +11,8 @@ dotenv.config();
 const app = express();
 
 // Middleware configurations
-const allowedOrigins = 
-  'http://localhost:5173';
-  // 'http://www.thewithinkers.com';
+const allowedOrigins = 'http://localhost:5173';
+// 'http://www.thewithinkers.com';
 
 app.use(
   cors({
@@ -30,15 +29,15 @@ app.use(
   })
 );
 
-
 app.use(express.json());
 
 // MongoDB connection
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 30000,
+      socketTimeoutMS: 60000, // Set socket timeout to 1 minute
+      // Timeout after 30 seconds
     });
     console.log('MongoDB connected');
   } catch (err) {
